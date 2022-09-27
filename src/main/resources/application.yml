@@ -1,20 +1,118 @@
+management:
+  server:
+    port: 8081
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 spring:
+  application:
+    name: example-spring-sharding-sphere
   shardingsphere:
     datasource:
-      names: ds_0, ds_1
-      ds_0:
+      names: write-ds-0,write-ds-1,write-ds-0-read-0,write-ds-0-read-1,write-ds-1-read-0,write-ds-1-read-1
+      write-ds-0:
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://${DB_MYSQL_HOST}:3306/es3_write_ds_0?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        max-active: 16
+        password: ${DB_MYSQL_PASSWORD}
         type: com.zaxxer.hikari.HikariDataSource
-        driverClassName: com.mysql.cj.jdbc.Driver
-        jdbcUrl: jdbc:mysql://localhost:3306/demo_ds_0?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
-        username: root
-        password:
-      ds_1:
+        username: ${DB_MYSQL_USER}
+      write-ds-0-read-0:
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://${DB_MYSQL_HOST}:3306/es3_write_ds_0_read_0?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        max-active: 16
+        password: ${DB_MYSQL_PASSWORD}
         type: com.zaxxer.hikari.HikariDataSource
-        driverClassName: com.mysql.cj.jdbc.Driver
-        jdbcUrl: jdbc:mysql://localhost:3306/demo_ds_1?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
-        username: root
-        password:
+        username: ${DB_MYSQL_USER}
+      write-ds-0-read-1:
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://${DB_MYSQL_HOST}:3306/es3_write_ds_0_read_1?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        max-active: 16
+        password: ${DB_MYSQL_PASSWORD}
+        type: com.zaxxer.hikari.HikariDataSource
+        username: ${DB_MYSQL_USER}
+      write-ds-1:
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://${DB_MYSQL_HOST}:3306/es3_write_ds_1?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        max-active: 16
+        password: ${DB_MYSQL_PASSWORD}
+        type: com.zaxxer.hikari.HikariDataSource
+        username: ${DB_MYSQL_USER}
+      write-ds-1-read-0:
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://${DB_MYSQL_HOST}:3306/es3_write_ds_1_read_0?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        max-active: 16
+        password: ${DB_MYSQL_PASSWORD}
+        type: com.zaxxer.hikari.HikariDataSource
+        username: ${DB_MYSQL_USER}
+      write-ds-1-read-1:
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://${DB_MYSQL_HOST}:3306/es3_write_ds_1_read_1?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        max-active: 16
+        password: ${DB_MYSQL_PASSWORD}
+        type: com.zaxxer.hikari.HikariDataSource
+        username: ${DB_MYSQL_USER}
+
     rules:
+      readwrite-splitting:
+        data-sources:
+          ds-0:
+            static-strategy:
+              read-data-source-names: write-ds-0-read-0, write-ds-0-read-1
+              write-data-source-name: write-ds-0
+          ds-1:
+            static-strategy:
+              read-data-source-names: write-ds-1-read-0, write-ds-1-read-1
+              write-data-source-name: write-ds-1
       sharding:
+        binding-tables:
+          - t_order,t_order_item
+        broadcast-tables: t_address
+        default-database-strategy:
+          standard:
+            sharding-algorithm-name: database-inline
+            sharding-column: user_id
+        key-generators:
+          snowflake:
+            type: SNOWFLAKE
+        sharding-algorithms:
+          database-inline:
+            props:
+              algorithm-expression: ds-$->{user_id % 2}
+            type: INLINE
+          t-order-inline:
+            props:
+              algorithm-expression: t_order_$->{order_id % 2}
+            type: INLINE
+          t-order-item-inline:
+            props:
+              algorithm-expression: t_order_item_$->{order_id % 2}
+            type: INLINE
         tables:
+          t_order:
+            actual-data-nodes: ds-$->{0..1}.t_order_$->{0..1}
+            key-generate-strategy:
+              column: order_id
+              key-generator-name: snowflake
+            table-strategy:
+              standard:
+                sharding-algorithm-name: t-order-inline
+                sharding-column: order_id
+          t_order_item:
+            actual-data-nodes: ds-$->{0..1}.t_order_item_$->{0..1}
+            key-generate-strategy:
+              column: order_item_id
+              key-generator-name: snowflake
+            table-strategy:
+              standard:
+                sharding-algorithm-name: t-order-item-inline
+                sharding-column: order_id
+
