@@ -1,14 +1,32 @@
+
 management:
   server:
     port: 8081
+
   endpoints:
     web:
       exposure:
         include: '*'
+
   endpoint:
     health:
+      enabled: true
+      probes:
+        enabled: true
       show-details: always
+    info:
+      enabled: true
+
+  health:
+    livenessState: # 开启 /actuator/health/liveness
+      enabled: true
+    readinessState: # 开启 /actuator/health/readiness
+      enabled: true
+
   metrics:
+    enable:
+      jvm: true
+    use-global-registry: false
     tags:
       application: ${spring.application.name}
 
