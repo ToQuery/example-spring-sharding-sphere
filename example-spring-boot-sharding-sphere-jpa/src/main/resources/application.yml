@@ -133,7 +133,7 @@ spring:
           tb-order-item-inline:
             props:
               algorithm-expression: tb_order_item_$->{order_id % 2}
-            type: INLINE
+            type: AppStandardShardingAlgorithm
         tables:
           tb_user:
             actual-data-nodes: ds-$->{0..1}.tb_user

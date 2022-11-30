@@ -1,7 +1,7 @@
 package io.github.toquery.example.spring.sharding.sphere.modules.order.service;
 
-import io.github.toquery.example.spring.sharding.sphere.core.modules.order.Order;
-import io.github.toquery.example.spring.sharding.sphere.core.modules.order.OrderItem;
+import io.github.toquery.example.spring.sharding.sphere.modules.order.Order;
+import io.github.toquery.example.spring.sharding.sphere.modules.order.OrderItem;
 import io.github.toquery.example.spring.sharding.sphere.modules.order.repository.OrderItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

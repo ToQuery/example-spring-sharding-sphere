@@ -1,6 +1,6 @@
 package io.github.toquery.example.spring.sharding.sphere.modules.user.service;
 
-import io.github.toquery.example.spring.sharding.sphere.core.modules.user.User;
+import io.github.toquery.example.spring.sharding.sphere.modules.user.User;
 import io.github.toquery.example.spring.sharding.sphere.modules.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package io.github.toquery.example.spring.sharding.sphere.core.modules.order;
+package io.github.toquery.example.spring.sharding.sphere.modules.order;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

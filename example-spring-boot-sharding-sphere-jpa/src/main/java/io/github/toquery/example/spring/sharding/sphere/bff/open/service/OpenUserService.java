@@ -1,11 +1,11 @@
 package io.github.toquery.example.spring.sharding.sphere.bff.open.service;
 
 import io.github.toquery.example.spring.sharding.sphere.bff.open.model.response.UserInfoResponse;
-import io.github.toquery.example.spring.sharding.sphere.core.modules.account.Account;
-import io.github.toquery.example.spring.sharding.sphere.core.modules.address.Address;
-import io.github.toquery.example.spring.sharding.sphere.core.modules.order.Order;
-import io.github.toquery.example.spring.sharding.sphere.core.modules.order.OrderItem;
-import io.github.toquery.example.spring.sharding.sphere.core.modules.user.User;
+import io.github.toquery.example.spring.sharding.sphere.modules.account.Account;
+import io.github.toquery.example.spring.sharding.sphere.modules.address.Address;
+import io.github.toquery.example.spring.sharding.sphere.modules.order.Order;
+import io.github.toquery.example.spring.sharding.sphere.modules.order.OrderItem;
+import io.github.toquery.example.spring.sharding.sphere.modules.user.User;
 import io.github.toquery.example.spring.sharding.sphere.modules.account.service.AccountService;
 import io.github.toquery.example.spring.sharding.sphere.modules.address.service.AddressService;
 import io.github.toquery.example.spring.sharding.sphere.modules.order.service.OrderItemService;

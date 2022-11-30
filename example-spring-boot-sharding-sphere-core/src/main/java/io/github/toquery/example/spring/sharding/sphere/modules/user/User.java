@@ -1,4 +1,4 @@
-package io.github.toquery.example.spring.sharding.sphere.core.modules.user;
+package io.github.toquery.example.spring.sharding.sphere.modules.user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

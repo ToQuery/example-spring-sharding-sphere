@@ -1,7 +1,6 @@
 package io.github.toquery.example.spring.sharding.sphere.modules.address.service;
 
-import io.github.toquery.example.spring.sharding.sphere.core.modules.account.Account;
-import io.github.toquery.example.spring.sharding.sphere.core.modules.address.Address;
+import io.github.toquery.example.spring.sharding.sphere.modules.address.Address;
 import io.github.toquery.example.spring.sharding.sphere.modules.address.repository.AddressRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

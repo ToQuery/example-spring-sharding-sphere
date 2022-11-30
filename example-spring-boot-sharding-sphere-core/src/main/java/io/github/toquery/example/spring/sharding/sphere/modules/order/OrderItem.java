@@ -1,4 +1,4 @@
-package io.github.toquery.example.spring.sharding.sphere.core.modules.address;
+package io.github.toquery.example.spring.sharding.sphere.modules.order;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,8 +20,9 @@ import java.io.Serializable;
 @ToString
 @EqualsAndHashCode
 @Entity
-@Table(name = "tb_address")
-public class Address implements Serializable {
+@Table(name = "tb_order_item")
+public class OrderItem implements Serializable {
+
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -30,9 +31,12 @@ public class Address implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "order_id")
+    private Long orderId;
+
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "address_name")
-    private String addressName;
+    @Column(name = "order_item_status")
+    private String orderItemStatus;
 }
