@@ -40,7 +40,7 @@ spring:
     props: # 属性配置 https://shardingsphere.apache.org/document/5.2.1/cn/user-manual/common-config/props/
       sql-show: true
     datasource:
-      names: ds-0-write-0,ds-0-read-0,ds-0-read-1,ds-1-write-0,ds-1-read-0,ds-1-read-1
+      names: ds-0-write-0,ds-0-read-0,ds-1-write-0,ds-1-read-0
       ds-0-write-0:
         driver-class-name: com.mysql.jdbc.Driver
         jdbc-url: jdbc:mysql://${DB_MYSQL_HOST}:3306/es3_write_ds_0?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
@@ -51,13 +51,6 @@ spring:
       ds-0-read-0:
         driver-class-name: com.mysql.jdbc.Driver
         jdbc-url: jdbc:mysql://${DB_MYSQL_HOST}:3306/es3_write_ds_0_read_0?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
-        max-active: 16
-        password: ${DB_MYSQL_PASSWORD}
-        type: com.zaxxer.hikari.HikariDataSource
-        username: ${DB_MYSQL_USER}
-      ds-0-read-1:
-        driver-class-name: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://${DB_MYSQL_HOST}:3306/es3_write_ds_0_read_1?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
         max-active: 16
         password: ${DB_MYSQL_PASSWORD}
         type: com.zaxxer.hikari.HikariDataSource
@@ -76,13 +69,7 @@ spring:
         password: ${DB_MYSQL_PASSWORD}
         type: com.zaxxer.hikari.HikariDataSource
         username: ${DB_MYSQL_USER}
-      ds-1-read-1:
-        driver-class-name: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://${DB_MYSQL_HOST}:3306/es3_write_ds_1_read_1?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
-        max-active: 16
-        password: ${DB_MYSQL_PASSWORD}
-        type: com.zaxxer.hikari.HikariDataSource
-        username: ${DB_MYSQL_USER}
+
 
     rules:
       readwrite-splitting: # 读写分离
@@ -93,14 +80,12 @@ spring:
               write-data-source-name: ds-0-write-0 # 写库数据源名称
               read-data-source-names: # 读库数据源列表，可用逗号分隔
                 - ds-0-read-0
-                - ds-0-read-1
           ds-1:
             load-balancer-name: ds-1-load-balancer # 负载均衡算法名称，与下面的对应
             static-strategy:
               write-data-source-name: ds-1-write-0
               read-data-source-names:
                 - ds-1-read-0
-                - ds-1-read-1
         load-balancers:
           ds-0-load-balancer:
             type: ROUND_ROBIN # 负载均衡算法 https://shardingsphere.apache.org/document/5.2.1/cn/user-manual/common-config/builtin-algorithm/load-balance/
@@ -111,6 +96,7 @@ spring:
         binding-tables:
           - tb_order
           - tb_order_item
+          - tb_statistics_order
         broadcast-tables: # 广播表
           - tb_user
         default-database-strategy:
@@ -133,7 +119,11 @@ spring:
           tb-order-item-inline:
             props:
               algorithm-expression: tb_order_item_$->{order_id % 2}
-            type: AppStandardShardingAlgorithm
+            type: AppOrderIdStandardShardingAlgorithm
+          tb-statistics-order-inline:
+            props:
+              algorithm-expression: tb_statistics_order_$->{order_id % 2}
+            type: AppStoreIdUserIdStandardShardingAlgorithm
         tables:
           tb_user:
             actual-data-nodes: ds-$->{0..1}.tb_user
@@ -165,7 +155,16 @@ spring:
               column: id
               key-generator-name: snowflake
             table-strategy:
-              standard:
+              complex:
+                sharding-columns: id,order_id
                 sharding-algorithm-name: tb-order-item-inline
-                sharding-column: order_id
+          tb_statistics_order:
+            actual-data-nodes: ds-$->{0..1}.tb_statistics_order_$->{0..1}
+            key-generate-strategy:
+              column: id
+              key-generator-name: snowflake
+            table-strategy:
+              complex:
+                sharding-columns: store_id,user_id
+                sharding-algorithm-name: tb-statistics-order-inline
 

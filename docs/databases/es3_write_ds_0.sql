@@ -20,6 +20,7 @@ CREATE TABLE tb_order_0
     `user_id`      bigint NULL,
     `address_id`   bigint NULL,
     `order_status` varchar(255) NULL,
+    `create_date_time` DATETIME NULL,
     PRIMARY KEY (`id`)
 );
 
@@ -29,6 +30,7 @@ CREATE TABLE tb_order_1
     `user_id`      bigint NULL,
     `address_id`   bigint NULL,
     `order_status` varchar(255) NULL,
+    `create_date_time` DATETIME NULL,
     PRIMARY KEY (`id`)
 );
 
@@ -64,19 +66,19 @@ values (1, 2, 'enable'),
        (3, 6, 'enable');
 
 insert into tb_address (`id`, `user_id`, `address_name`)
-values (1, 2, 'user_1_address_'),
-       (2, 4, 'user_3_address_'),
-       (3, 6, 'user_5_address_');
+values (1, 2, 'user_2_address_'),
+       (2, 4, 'user_4_address_'),
+       (3, 6, 'user_6_address_');
 
-insert into tb_order_0 (`id`, `user_id`, `address_id`, `order_status`)
-values (2, 2, 2, 'PAY'),
-       (4, 4, 4, 'PAY'),
-       (6, 6, 6, 'PAY');
+insert into tb_order_0 (`id`, `user_id`, `address_id`, `order_status`, `create_date_time`)
+values (2, 2, 2, 'PAY', '2022-11-02 11:11:11'),
+       (4, 4, 4, 'PAY', '2022-11-04 11:11:11'),
+       (6, 6, 6, 'PAY', '2022-11-06 11:11:11');
 
-insert into tb_order_1 (`id`, `user_id`, `address_id`, `order_status`)
-values (1, 2, 2, 'PAY'),
-       (3, 4, 4, 'PAY'),
-       (5, 6, 6, 'PAY');
+insert into tb_order_1 (`id`, `user_id`, `address_id`, `order_status`, `create_date_time`)
+values (1, 2, 2, 'PAY', '2022-11-01 11:11:11'),
+       (3, 4, 4, 'PAY', '2022-11-03 11:11:11'),
+       (5, 6, 6, 'PAY', '2022-11-05 11:11:11');
 
 insert into tb_order_item_0 (`id`, `user_id`, `order_id`, `order_item_status`)
 values (1, 2, 2, 'PAY'),

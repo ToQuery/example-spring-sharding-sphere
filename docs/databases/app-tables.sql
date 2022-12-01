@@ -20,6 +20,7 @@ CREATE TABLE tb_order
     `user_id`      bigint NULL,
     `address_id`   bigint NULL,
     `order_status` varchar(255) NULL,
+    `create_date_time` DATETIME NULL,
     PRIMARY KEY (`id`)
 );
 
@@ -29,6 +30,16 @@ CREATE TABLE tb_order_item
     `user_id`           bigint NULL,
     `order_id`          bigint NULL,
     `order_item_status` varchar(255) NULL,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE tb_statistics_order
+(
+    `id`                bigint NOT NULL,
+    `store_id`          bigint NULL,
+    `user_id`           bigint NULL,
+    `order_id`          bigint NULL,
+    `pay_date_time` DATETIME NULL,
     PRIMARY KEY (`id`)
 );
 

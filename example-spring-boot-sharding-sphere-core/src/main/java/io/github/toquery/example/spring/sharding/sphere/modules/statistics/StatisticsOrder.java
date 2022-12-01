@@ -1,4 +1,4 @@
-package io.github.toquery.example.spring.sharding.sphere.modules.order;
+package io.github.toquery.example.spring.sharding.sphere.modules.statistics;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,6 +13,7 @@ import lombok.ToString;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 /**
  *
  */
@@ -20,9 +21,8 @@ import java.time.LocalDateTime;
 @ToString
 @EqualsAndHashCode
 @Entity
-@Table(name = "tb_order")
-public class Order implements Serializable {
-
+@Table(name = "tb_statistics_order")
+public class StatisticsOrder implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -31,15 +31,16 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "store_id")
+    private Long storeId;
+
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "address_id")
-    private Long addressId;
+    @Column(name = "order_id")
+    private Long orderId;
 
-    @Column(name = "order_status")
-    private String status;
+    @Column(name = "pay_date_time")
+    private LocalDateTime payDateTime;
 
-    @Column(name = "create_date_time")
-    private LocalDateTime createDateTime;
 }

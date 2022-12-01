@@ -3,6 +3,10 @@ package io.github.toquery.example.spring.sharding.sphere.modules.order.service;
 import io.github.toquery.example.spring.sharding.sphere.modules.order.Order;
 import io.github.toquery.example.spring.sharding.sphere.modules.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,6 +45,10 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public Page<Order> page(Integer page, Integer size) {
+        return orderRepository.findAll(PageRequest.of(page,size, Sort.by("createDateTime").ascending()));
+    }
+
     public List<Order> findByUserId(Long userId) {
         return orderRepository.findByUserId(userId);
     }
@@ -52,7 +60,6 @@ public class OrderService {
     public void delete(Long id) {
         orderRepository.deleteById(id);
     }
-
 
 
 }

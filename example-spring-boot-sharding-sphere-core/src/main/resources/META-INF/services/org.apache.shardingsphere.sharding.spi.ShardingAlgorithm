@@ -1,1 +1,3 @@
-io.github.toquery.example.spring.sharding.sphere.core.config.AppStandardShardingAlgorithm
+io.github.toquery.example.spring.sharding.sphere.core.config.AppOrderIdStandardShardingAlgorithm
+io.github.toquery.example.spring.sharding.sphere.core.config.AppStoreIdUserIdStandardShardingAlgorithm
+

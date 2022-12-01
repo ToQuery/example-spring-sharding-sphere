@@ -1,4 +1,4 @@
-package io.github.toquery.example.spring.sharding.sphere.bff.open.model.response;
+package io.github.toquery.example.spring.sharding.sphere.bff.open.order.model.response;
 
 import io.github.toquery.example.spring.sharding.sphere.modules.account.Account;
 import io.github.toquery.example.spring.sharding.sphere.modules.address.Address;
