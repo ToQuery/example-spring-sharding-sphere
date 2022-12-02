@@ -1,5 +1,6 @@
 package io.github.toquery.example.spring.sharding.sphere.bff.open.order.controller;
 
+import io.github.toquery.example.spring.sharding.sphere.bff.open.order.model.response.OrderUserResponse;
 import io.github.toquery.example.spring.sharding.sphere.bff.open.order.service.OpenOrderService;
 import io.github.toquery.example.spring.sharding.sphere.bff.open.order.model.response.UserInfoResponse;
 import io.github.toquery.example.spring.sharding.sphere.modules.order.Order;
@@ -40,6 +41,12 @@ public class OpenOrderController {
     public List<Order> list() {
         return orderService.list();
     }
+
+    @GetMapping("/list-user")
+    public List<OrderUserResponse> listWithUser() {
+        return orderService.listWithUser();
+    }
+
 
     @GetMapping("/page")
     public Page<Order> page(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "3") Integer size) {

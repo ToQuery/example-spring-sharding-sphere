@@ -1,5 +1,6 @@
 package io.github.toquery.example.spring.sharding.sphere.modules.order.service;
 
+import io.github.toquery.example.spring.sharding.sphere.bff.open.order.model.response.OrderUserResponse;
 import io.github.toquery.example.spring.sharding.sphere.modules.order.Order;
 import io.github.toquery.example.spring.sharding.sphere.modules.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,10 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+
+    public List<OrderUserResponse> listWithUser() {
+        return orderRepository.listWithUser();
+    }
     public Page<Order> page(Integer page, Integer size) {
         return orderRepository.findAll(PageRequest.of(page,size, Sort.by("createDateTime").ascending()));
     }

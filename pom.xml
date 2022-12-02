@@ -21,6 +21,9 @@
 		<java.version>17</java.version>
 		<project.version>0.0.1-SNAPSHOT</project.version>
 		<shardingsphere.version>5.2.1</shardingsphere.version>
+
+		<!-- 无法使用新版 hibernate https://github.com/apache/shardingsphere/pull/20008 -->
+		<hibernate.version>6.0.0.Final</hibernate.version>
 	</properties>
 
 	<modules>

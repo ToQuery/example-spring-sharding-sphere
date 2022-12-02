@@ -1,5 +1,6 @@
 package io.github.toquery.example.spring.sharding.sphere.bff.open.order.service;
 
+import io.github.toquery.example.spring.sharding.sphere.bff.open.order.model.response.OrderUserResponse;
 import io.github.toquery.example.spring.sharding.sphere.bff.open.order.model.response.UserInfoResponse;
 import io.github.toquery.example.spring.sharding.sphere.modules.account.Account;
 import io.github.toquery.example.spring.sharding.sphere.modules.address.Address;
@@ -42,6 +43,11 @@ public class OpenOrderService {
         return orderService.list();
     }
 
+
+    public List<OrderUserResponse> listWithUser() {
+        return orderService.listWithUser();
+    }
+
     public Page<Order> page(Integer page, Integer size) {
         return orderService.page(page,size);
     }
@@ -64,7 +70,6 @@ public class OpenOrderService {
 
         return statisticsOrderService.findByUserId(userId);
     }
-
 
 
 }
