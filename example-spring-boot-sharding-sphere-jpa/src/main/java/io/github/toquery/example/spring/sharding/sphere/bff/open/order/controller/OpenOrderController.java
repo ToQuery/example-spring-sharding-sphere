@@ -38,13 +38,13 @@ public class OpenOrderController {
 
 
     @GetMapping("/list")
-    public List<Order> list() {
-        return orderService.list();
+    public List<Order> list(@RequestParam(required = false) Long userId, @RequestParam(required = false) Long orderId) {
+        return orderService.list(userId, orderId);
     }
 
     @GetMapping("/list-user")
-    public List<OrderUserResponse> listWithUser() {
-        return orderService.listWithUser();
+    public List<OrderUserResponse> listWithUser(@RequestParam(required = false) Long userId, @RequestParam(required = false) Long orderId) {
+        return orderService.listWithUser(userId, orderId);
     }
 
 

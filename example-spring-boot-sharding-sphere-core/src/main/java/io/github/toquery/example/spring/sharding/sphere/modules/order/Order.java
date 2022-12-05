@@ -38,7 +38,7 @@ public class Order implements Serializable {
     private Long addressId;
 
     @Column(name = "order_status")
-    private String status;
+    private String orderStatus;
 
     @Column(name = "create_date_time")
     private LocalDateTime createDateTime;

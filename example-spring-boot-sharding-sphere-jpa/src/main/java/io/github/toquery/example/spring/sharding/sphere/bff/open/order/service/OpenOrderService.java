@@ -43,9 +43,37 @@ public class OpenOrderService {
         return orderService.list();
     }
 
+    public List<Order> list(Long userId, Long orderId) {
+        if (userId == null && orderId == null){
+            return orderService.list();
+        }else if (userId != null && orderId != null){
+            return orderService.list(userId, orderId);
+        }else {
+            if (orderId != null){
+                return List.of(orderService.findById(orderId));
+            }else {
+                return orderService.findByUserId(userId);
+            }
+        }
+    }
 
     public List<OrderUserResponse> listWithUser() {
         return orderService.listWithUser();
+    }
+
+
+    public List<OrderUserResponse> listWithUser(Long userId, Long orderId) {
+        if (userId == null && orderId == null) {
+            return orderService.listWithUser();
+        }else if (userId != null && orderId != null) {
+            return orderService.listWithUser(userId, orderId);
+        }else {
+            if (orderId!= null) {
+                return List.of(orderService.findOrderUserResponseById(orderId));
+            }else {
+                return orderService.findOrderUserResponseByUserId(userId);
+            }
+        }
     }
 
     public Page<Order> page(Integer page, Integer size) {

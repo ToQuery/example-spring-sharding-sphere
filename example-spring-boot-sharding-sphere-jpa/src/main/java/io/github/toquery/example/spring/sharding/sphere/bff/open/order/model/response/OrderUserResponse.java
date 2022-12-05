@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 //                )
 //        })
 @Data
+@AllArgsConstructor
 public class OrderUserResponse {
 
     private Long orderId;
@@ -35,7 +36,7 @@ public class OrderUserResponse {
 
     private Long addressId;
 
-    private String status;
+    private String orderStatus;
 
     private LocalDateTime createDateTime;
 
