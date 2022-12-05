@@ -57,7 +57,7 @@ public class OpenOrderController {
     public List<StatisticsOrder> statisticsOrder(@RequestParam(required = false) Long storeId,
                                                  @RequestParam(required = false) Long userId,
                                                  @RequestParam(required = false) Long orderId) {
-        return orderService.statisticsOrder(storeId, userId, orderId);
+        return orderService.statistics(storeId, userId, orderId);
     }
 
 }

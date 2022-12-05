@@ -37,7 +37,7 @@ public class OpenOrderService {
     private final StatisticsOrderService statisticsOrderService;
 
     public UserInfoResponse userInfo(Long userId) {
-        return new UserInfoResponse(userService.findById(userId), accountService.getByUserId(userId), addressService.findByUserId(userId), orderService.findByUserId(userId), orderItemService.findByUserId(userId));
+        return new UserInfoResponse(userService.findById(userId), accountService.getByUserId(userId), addressService.findByUserId(userId), orderService.findByUserId(userId), orderItemService.findByUserId(userId), statisticsOrderService.findByUserId(userId));
     }
 
     public List<Order> list() {
@@ -78,20 +78,24 @@ public class OpenOrderService {
         List<Address> address = addressService.save(userId);
         List<Order> orders = orderService.save(userId, address.get(0).getId());
         List<OrderItem> orderItems = orderItemService.save(userId, orders);
-        return new UserInfoResponse(user, account, address, orders, orderItems);
+        List<StatisticsOrder> statisticsOrders = statisticsOrderService.save(userId, orders);
+        return new UserInfoResponse(user, account, address, orders, orderItems, statisticsOrders);
     }
 
-    public List<StatisticsOrder> statisticsStore(Long storeId) {
+    public List<StatisticsOrder> statisticsStoreId(Long storeId) {
         return statisticsOrderService.findByStoreId(storeId);
     }
 
-    public List<StatisticsOrder> statisticsUser(Long userId) {
-
+    public List<StatisticsOrder> statisticsUserId(Long userId) {
         return statisticsOrderService.findByUserId(userId);
     }
 
 
-    public List<StatisticsOrder> statisticsOrder(Long storeId, Long userId, Long orderId) {
+    public List<StatisticsOrder> statisticsOrderId(Long storeId, Long userId, Long orderId) {
+        return statisticsOrderService.findByStoreIdAndUserIdAndOrderId(storeId,userId, orderId);
+    }
+
+    public List<StatisticsOrder> statistics(Long storeId, Long userId, Long orderId) {
         return statisticsOrderService.findByStoreIdAndUserIdAndOrderId(storeId,userId, orderId);
     }
 }

@@ -1,11 +1,14 @@
 package io.github.toquery.example.spring.sharding.sphere.modules.statistics.service;
 
+import cn.hutool.core.util.RandomUtil;
+import io.github.toquery.example.spring.sharding.sphere.modules.order.Order;
 import io.github.toquery.example.spring.sharding.sphere.modules.statistics.StatisticsOrder;
 import io.github.toquery.example.spring.sharding.sphere.modules.statistics.repository.StatisticsOrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,5 +44,16 @@ public class StatisticsOrderService {
         }
 
         return statisticsOrderRepository.findAll(Example.of(statisticsOrderQuery));
+    }
+
+    public List<StatisticsOrder> save(Long userId, List<Order> orders) {
+        return statisticsOrderRepository.saveAll(orders.stream().map(order -> {
+            StatisticsOrder statisticsOrder = new StatisticsOrder();
+            statisticsOrder.setUserId(userId);
+            statisticsOrder.setOrderId(order.getId());
+            statisticsOrder.setStoreId((long)RandomUtil.randomInt(1, 4));
+            statisticsOrder.setPayDateTime(LocalDateTime.now());
+            return statisticsOrder;
+        }).toList());
     }
 }
