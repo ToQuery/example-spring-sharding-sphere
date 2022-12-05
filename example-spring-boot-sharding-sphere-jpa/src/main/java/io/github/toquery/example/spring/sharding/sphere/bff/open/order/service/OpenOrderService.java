@@ -15,6 +15,7 @@ import io.github.toquery.example.spring.sharding.sphere.modules.order.service.Or
 import io.github.toquery.example.spring.sharding.sphere.modules.order.service.OrderService;
 import io.github.toquery.example.spring.sharding.sphere.modules.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -44,17 +45,7 @@ public class OpenOrderService {
     }
 
     public List<Order> list(Long userId, Long orderId) {
-        if (userId == null && orderId == null){
-            return orderService.list();
-        }else if (userId != null && orderId != null){
-            return orderService.list(userId, orderId);
-        }else {
-            if (orderId != null){
-                return List.of(orderService.findById(orderId));
-            }else {
-                return orderService.findByUserId(userId);
-            }
-        }
+        return orderService.list(userId, orderId);
     }
 
     public List<OrderUserResponse> listWithUser() {

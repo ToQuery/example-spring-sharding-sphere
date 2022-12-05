@@ -4,7 +4,7 @@
 
 ## 业务场景模拟：
 
-共有两个数据库（es3_write_ds_0、es3_write_ds_1），并且数据库都实现两个读库，总共存在6个数据库。存在5张逻辑表（如下）：
+共有两个数据库（es3_write_ds_0、es3_write_ds_1），并且数据库都实现一个读库，总共存在4个数据库。存在5张逻辑表（如下）：
 
 - tb_account 账号表
 - tb_address 地址表
@@ -134,18 +134,26 @@ tb_user 为广播表，所有库表都一致，tb_account、tb_address 为分库
 
 数据库物理结构如下，不体现两个读库（与主库一致）
 
-| 数据库         | 数据表          | 分库 | 分表 |
-| -------------- | --------------- | ---- | ---- |
-| es3_write_ds_0 | tb_user         | -    | -    |
-|                | tb_account      | 是   | -    |
-|                | tb_address      | 是   | -    |
-|                | tb_order_0      | 是   | 是   |
-|                | tb_order_item_0 | 是   | 是   |
-| es3_write_ds_1 | tb_user         | -    | -    |
-|                | tb_account      | 是   | -    |
-|                | tb_address      | 是   | -    |
-|                | tb_order_1      | 是   | 是   |
-|                | tb_order_item_1 | 是   | 是   |
+| 数据库         | 数据表                | 分库 | 分表 | 分表规则                   |
+| -------------- | --------------------- | ---- | ---- | -------------------------- |
+| es3_write_ds_0 | tb_user               | -    | -    |                            |
+|                | tb_account            | 是   | -    |                            |
+|                | tb_address            | 是   | -    |                            |
+|                | tb_order_0            | 是   | 是   | id%2                       |
+|                | tb_order_1            | 是   | 是   | id%2                       |
+|                | tb_order_item_0       | 是   | 是   | 自定义：order_id%2         |
+|                | tb_order_item_1       | 是   | 是   | 自定义：order_id%2         |
+|                | tb_statistics_order_0 | 是   | 是   | 自定义：(store+order_id)%2 |
+|                | tb_statistics_order_1 | 是   | 是   | 自定义：(store+order_id)%2 |
+| es3_write_ds_1 | tb_user               | -    | -    |                            |
+|                | tb_account            | 是   | -    |                            |
+|                | tb_address            | 是   | -    |                            |
+|                | tb_order_0            | 是   | 是   | id%2                       |
+|                | tb_order_1            | 是   | 是   | id%2                       |
+|                | tb_order_item_0       | 是   | 是   | 自定义：order_id%2         |
+|                | tb_order_item_1       | 是   | 是   | 自定义：order_id%2         |
+|                | tb_statistics_order_0 | 是   | 是   | 自定义：(store+order_id)%2 |
+|                | tb_statistics_order_1 | 是   | 是   | 自定义：(store+order_id)%2 |
 
 ### 分库、分表规则
 

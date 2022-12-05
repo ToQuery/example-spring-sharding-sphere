@@ -3,8 +3,10 @@ package io.github.toquery.example.spring.sharding.sphere.modules.statistics.serv
 import io.github.toquery.example.spring.sharding.sphere.modules.statistics.StatisticsOrder;
 import io.github.toquery.example.spring.sharding.sphere.modules.statistics.repository.StatisticsOrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +28,18 @@ public class StatisticsOrderService {
     }
 
     public List<StatisticsOrder> findByStoreIdAndUserIdAndOrderId(Long storeId, Long userId, Long orderId) {
-        return statisticsOrderRepository.findByStoreIdAndUserIdAndOrderId(storeId, userId, orderId);
+
+        StatisticsOrder statisticsOrderQuery = new StatisticsOrder();
+        if (storeId != null){
+            statisticsOrderQuery.setStoreId(storeId);
+        }
+        if (userId!= null) {
+            statisticsOrderQuery.setUserId(userId);
+        }
+        if (orderId!= null) {
+            statisticsOrderQuery.setOrderId(orderId);
+        }
+
+        return statisticsOrderRepository.findAll(Example.of(statisticsOrderQuery));
     }
 }

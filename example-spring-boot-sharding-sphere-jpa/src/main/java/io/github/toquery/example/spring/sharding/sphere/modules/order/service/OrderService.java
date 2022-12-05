@@ -4,6 +4,7 @@ import io.github.toquery.example.spring.sharding.sphere.bff.open.order.model.res
 import io.github.toquery.example.spring.sharding.sphere.modules.order.Order;
 import io.github.toquery.example.spring.sharding.sphere.modules.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -46,9 +47,16 @@ public class OrderService {
     }
 
 
-
     public List<Order> list(Long userId, Long orderId) {
-        return orderRepository.findByUserIdAndId(userId, orderId);
+        Order orderQuery = new Order();
+
+        if (userId != null) {
+            orderQuery.setUserId(userId);
+        }
+        if (orderId != null) {
+            orderQuery.setId(orderId);
+        }
+        return orderRepository.findAll(Example.of(orderQuery));
     }
 
     public List<OrderUserResponse> listWithUser() {
@@ -59,8 +67,9 @@ public class OrderService {
     public List<OrderUserResponse> listWithUser(Long userId, Long orderId) {
         return orderRepository.listWithUser(userId, orderId);
     }
+
     public Page<Order> page(Integer page, Integer size) {
-        return orderRepository.findAll(PageRequest.of(page,size, Sort.by("createDateTime").ascending()));
+        return orderRepository.findAll(PageRequest.of(page, size, Sort.by("createDateTime").ascending()));
     }
 
     public List<Order> findByUserId(Long userId) {
@@ -82,7 +91,6 @@ public class OrderService {
     public void delete(Long id) {
         orderRepository.deleteById(id);
     }
-
 
 
 }
