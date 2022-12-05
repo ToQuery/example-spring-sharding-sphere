@@ -20,15 +20,15 @@ public class AccountService {
         Account account = new Account();
         account.setUserId(userId);
         account.setAccountStatus("active");
-        return accountRepository.save(account);
+        return accountRepository.saveAndFlush(account);
     }
 
     public Account save(Account account) {
-        return accountRepository.save(account);
+        return accountRepository.saveAndFlush(account);
     }
 
     public Account update(Account account) {
-        return accountRepository.save(account);
+        return accountRepository.saveAndFlush(account);
     }
 
     public List<Account> list() {

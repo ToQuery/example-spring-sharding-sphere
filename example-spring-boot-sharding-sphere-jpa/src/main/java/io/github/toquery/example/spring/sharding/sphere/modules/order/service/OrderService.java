@@ -23,7 +23,7 @@ public class OrderService {
 
 
     public Order save(Order order) {
-        return orderRepository.save(order);
+        return orderRepository.saveAndFlush(order);
     }
 
     public List<Order> save(Long userId, Long addressId) {
@@ -39,7 +39,7 @@ public class OrderService {
     }
 
     public Order update(Order order) {
-        return orderRepository.save(order);
+        return orderRepository.saveAndFlush(order);
     }
 
     public List<Order> list() {

@@ -19,7 +19,7 @@ public class OrderItemService {
 
 
     public OrderItem save(OrderItem orderItem) {
-        return orderItemRepository.save(orderItem);
+        return orderItemRepository.saveAndFlush(orderItem);
     }
 
 
@@ -28,13 +28,14 @@ public class OrderItemService {
             OrderItem orderItem = new OrderItem();
             orderItem.setUserId(userId);
             orderItem.setOrderId(order.getId());
+            orderItem.setOrderItemStatus("PAY");
             return orderItem;
         }).toList());
 
     }
 
     public OrderItem update(OrderItem orderItem) {
-        return orderItemRepository.save(orderItem);
+        return orderItemRepository.saveAndFlush(orderItem);
     }
 
     public List<OrderItem> list() {

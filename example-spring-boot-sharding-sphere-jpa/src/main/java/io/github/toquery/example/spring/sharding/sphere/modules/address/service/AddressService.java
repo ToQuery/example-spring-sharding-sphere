@@ -22,10 +22,10 @@ public class AddressService {
         return addressRepository.saveAll(List.of(address));
     }
     public Address save(Address address) {
-        return addressRepository.save(address);
+        return addressRepository.saveAndFlush(address);
     }
     public Address update(Address address) {
-        return addressRepository.save(address);
+        return addressRepository.saveAndFlush(address);
     }
 
 

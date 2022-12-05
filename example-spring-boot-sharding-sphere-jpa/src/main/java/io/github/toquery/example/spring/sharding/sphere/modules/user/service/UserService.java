@@ -20,15 +20,15 @@ public class UserService {
         User user = new User();
         user.setUsername("toquery");
         user.setPwd("toquery");
-        return userRepository.save(user);
+        return userRepository.saveAndFlush(user);
     }
 
     public User save(User user) {
-        return userRepository.save(user);
+        return userRepository.saveAndFlush(user);
     }
 
     public User update(User user) {
-        return userRepository.save(user);
+        return userRepository.saveAndFlush(user);
     }
 
     public List<User> list() {
