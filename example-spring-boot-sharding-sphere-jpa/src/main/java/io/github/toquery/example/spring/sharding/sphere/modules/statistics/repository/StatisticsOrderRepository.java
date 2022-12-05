@@ -12,4 +12,6 @@ public interface StatisticsOrderRepository extends JpaRepository<StatisticsOrder
     List<StatisticsOrder> findByStoreId(Long storeId);
 
     List<StatisticsOrder> findByUserId(Long userId);
+
+    List<StatisticsOrder> findByStoreIdAndUserIdAndOrderId(Long storeId, Long userId, Long orderId);
 }

@@ -24,4 +24,8 @@ public class StatisticsOrderService {
     public List<StatisticsOrder> findByUserId(Long userId) {
         return statisticsOrderRepository.findByUserId(userId);
     }
+
+    public List<StatisticsOrder> findByStoreIdAndUserIdAndOrderId(Long storeId, Long userId, Long orderId) {
+        return statisticsOrderRepository.findByStoreIdAndUserIdAndOrderId(storeId, userId, orderId);
+    }
 }

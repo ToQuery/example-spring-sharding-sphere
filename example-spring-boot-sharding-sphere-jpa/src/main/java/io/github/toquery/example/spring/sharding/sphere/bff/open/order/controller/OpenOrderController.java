@@ -53,14 +53,11 @@ public class OpenOrderController {
         return orderService.page(page, size);
     }
 
-    @GetMapping("/statistics/store/{storeId}")
-    public List<StatisticsOrder> statisticsStore(@PathVariable Long storeId) {
-        return orderService.statisticsStore(storeId);
+    @GetMapping("/statistics")
+    public List<StatisticsOrder> statisticsOrder(@RequestParam(required = false) Long storeId,
+                                                 @RequestParam(required = false) Long userId,
+                                                 @RequestParam(required = false) Long orderId) {
+        return orderService.statisticsOrder(storeId, userId, orderId);
     }
 
-
-    @GetMapping("/statistics/user/{userId}")
-    public List<StatisticsOrder> statisticsUser(@PathVariable Long userId) {
-        return orderService.statisticsUser(userId);
-    }
 }

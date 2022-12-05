@@ -100,4 +100,7 @@ public class OpenOrderService {
     }
 
 
+    public List<StatisticsOrder> statisticsOrder(Long storeId, Long userId, Long orderId) {
+        return statisticsOrderService.findByStoreIdAndUserIdAndOrderId(storeId,userId, orderId);
+    }
 }

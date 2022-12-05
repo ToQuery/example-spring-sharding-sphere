@@ -16,20 +16,20 @@ CREATE TABLE tb_address
 
 CREATE TABLE tb_order_0
 (
-    `id`           bigint NOT NULL,
-    `user_id`      bigint NULL,
-    `address_id`   bigint NULL,
-    `order_status` varchar(255) NULL,
+    `id`               bigint NOT NULL,
+    `user_id`          bigint NULL,
+    `address_id`       bigint NULL,
+    `order_status`     varchar(255) NULL,
     `create_date_time` DATETIME NULL,
     PRIMARY KEY (`id`)
 );
 
 CREATE TABLE tb_order_1
 (
-    `id`           bigint NOT NULL,
-    `user_id`      bigint NULL,
-    `address_id`   bigint NULL,
-    `order_status` varchar(255) NULL,
+    `id`               bigint NOT NULL,
+    `user_id`          bigint NULL,
+    `address_id`       bigint NULL,
+    `order_status`     varchar(255) NULL,
     `create_date_time` DATETIME NULL,
     PRIMARY KEY (`id`)
 );
@@ -49,6 +49,26 @@ CREATE TABLE tb_order_item_1
     `user_id`           bigint NULL,
     `order_id`          bigint NULL,
     `order_item_status` varchar(255) NULL,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE tb_statistics_order_0
+(
+    `id`            bigint NOT NULL,
+    `store_id`      bigint NULL,
+    `user_id`       bigint NULL,
+    `order_id`      bigint NULL,
+    `pay_date_time` DATETIME NULL,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE tb_statistics_order_1
+(
+    `id`            bigint NOT NULL,
+    `store_id`      bigint NULL,
+    `user_id`       bigint NULL,
+    `order_id`      bigint NULL,
+    `pay_date_time` DATETIME NULL,
     PRIMARY KEY (`id`)
 );
 
@@ -104,3 +124,12 @@ values (1, 'user_1', 'user_1'),
        (5, 'user_5', 'user_5'),
        (6, 'user_6', 'user_6');
 
+insert into tb_statistics_order_0 (`id`, `store_id`, `user_id`, `order_id`, `pay_date_time`)
+values (1, 1, 2, 1, '2022-11-01 22:22:22'),
+       (2, 2, 4, 3, '2022-11-03 22:22:22'),
+       (3, 3, 6, 5, '2022-11-05 22:22:22');
+
+insert into tb_statistics_order_1 (`id`, `store_id`, `user_id`, `order_id`, `pay_date_time`)
+values (4, 1, 2, 2, '2022-11-02 22:22:22'),
+       (5, 2, 4, 4, '2022-11-04 22:22:22'),
+       (6, 3, 6, 6, '2022-11-06 22:22:22');

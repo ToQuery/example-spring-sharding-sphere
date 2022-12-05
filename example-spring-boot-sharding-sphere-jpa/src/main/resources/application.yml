@@ -121,9 +121,7 @@ spring:
               algorithm-expression: tb_order_item_$->{order_id % 2}
             type: AppOrderIdStandardShardingAlgorithm
           tb-statistics-order-inline:
-            props:
-              algorithm-expression: tb_statistics_order_$->{order_id % 2}
-            type: AppStoreIdUserIdStandardShardingAlgorithm
+            type: AppStoreIdOrderIdStandardShardingAlgorithm
         tables:
           tb_user:
             actual-data-nodes: ds-$->{0..1}.tb_user
@@ -165,6 +163,6 @@ spring:
               key-generator-name: snowflake
             table-strategy:
               complex:
-                sharding-columns: store_id,user_id
+                sharding-columns: store_id,order_id
                 sharding-algorithm-name: tb-statistics-order-inline
 

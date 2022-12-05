@@ -53,6 +53,26 @@ CREATE TABLE tb_order_item_1
     PRIMARY KEY (`id`)
 );
 
+CREATE TABLE tb_statistics_order_0
+(
+    `id`            bigint NOT NULL,
+    `store_id`      bigint NULL,
+    `user_id`       bigint NULL,
+    `order_id`      bigint NULL,
+    `pay_date_time` DATETIME NULL,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE tb_statistics_order_1
+(
+    `id`            bigint NOT NULL,
+    `store_id`      bigint NULL,
+    `user_id`       bigint NULL,
+    `order_id`      bigint NULL,
+    `pay_date_time` DATETIME NULL,
+    PRIMARY KEY (`id`)
+);
+
 CREATE TABLE tb_user
 (
     `id`       bigint NOT NULL,
@@ -104,5 +124,15 @@ values (1, 'user_1', 'user_1'),
        (4, 'user_4', 'user_4'),
        (5, 'user_5', 'user_5'),
        (6, 'user_6', 'user_6');
+
+insert into tb_statistics_order_0 (`id`, `store_id`, `user_id`, `order_id`, `pay_date_time`)
+values (7, 1, 2, 7, '2022-11-07 22:22:22'),
+       (8, 2, 3, 9, '2022-11-09 22:22:22'),
+       (9, 3, 5, 11, '2022-11-11 22:22:22');
+
+insert into tb_statistics_order_1 (`id`, `store_id`, `user_id`, `order_id`, `pay_date_time`)
+values (10, 1, 1, 9, '2022-11-09 22:22:22'),
+       (11, 2, 3, 10, '2022-11-10 22:22:22'),
+       (12, 3, 5, 12, '2022-11-12 22:22:22');
 
 
