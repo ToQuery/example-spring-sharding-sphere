@@ -6,11 +6,16 @@ import io.github.toquery.example.spring.sharding.sphere.modules.statistics.Stati
 import io.github.toquery.example.spring.sharding.sphere.modules.statistics.repository.StatisticsOrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Range;
 import org.springframework.stereotype.Service;
+import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  *
@@ -42,9 +47,14 @@ public class StatisticsOrderService {
         if (orderId!= null) {
             statisticsOrderQuery.setOrderId(orderId);
         }
-
+        // Range.closed();
         return statisticsOrderRepository.findAll(Example.of(statisticsOrderQuery));
     }
+
+    public List<StatisticsOrder> findByStoreIdAndUserIdAndOrderId(Long storeId, Long userId, Long orderId, LocalDate startDate, LocalDate endDate) {
+        return statisticsOrderRepository.findByUserIdAndOrderIdAndPayDateTimeAfterAndPayDateTimeBefore(userId, orderId, LocalDateTime.of(startDate, LocalTime.MIN), LocalDateTime.of(endDate, LocalTime.MAX));
+    }
+
 
     public List<StatisticsOrder> save(Long userId, List<Order> orders) {
         return statisticsOrderRepository.saveAll(orders.stream().map(order -> {

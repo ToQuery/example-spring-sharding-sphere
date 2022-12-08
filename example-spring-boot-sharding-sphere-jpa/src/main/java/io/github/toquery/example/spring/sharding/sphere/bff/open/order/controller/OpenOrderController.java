@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -38,8 +39,8 @@ public class OpenOrderController {
 
 
     @GetMapping("/list")
-    public List<Order> list(@RequestParam(required = false) Long userId, @RequestParam(required = false) Long orderId) {
-        return orderService.list(userId, orderId);
+    public List<Order> list(@RequestParam(required = false) Long userId, @RequestParam(required = false) Long orderId,@RequestParam(required = false) List<Long> orderIds) {
+        return orderService.list(userId, orderId, orderIds);
     }
 
     @GetMapping("/list-user")
@@ -47,17 +48,26 @@ public class OpenOrderController {
         return orderService.listWithUser(userId, orderId);
     }
 
+    @GetMapping("/update")
+    public List<Order> update(@RequestParam(required = false) Long userId, @RequestParam(required = false) Long newUserId) {
+        return orderService.update(userId, newUserId);
+    }
+
+
 
     @GetMapping("/page")
-    public Page<Order> page(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "3") Integer size) {
+    public Page<Order> page(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "2") Integer size) {
         return orderService.page(page, size);
     }
 
     @GetMapping("/statistics")
     public List<StatisticsOrder> statisticsOrder(@RequestParam(required = false) Long storeId,
                                                  @RequestParam(required = false) Long userId,
-                                                 @RequestParam(required = false) Long orderId) {
-        return orderService.statistics(storeId, userId, orderId);
+                                                 @RequestParam(required = false) Long orderId,
+                                                 @RequestParam(required = false) LocalDate startDate,
+                                                 @RequestParam(required = false) LocalDate endDate,
+                                                 StatisticsOrder statisticsOrder) {
+        return orderService.statistics(storeId, userId, orderId, startDate, endDate);
     }
 
 }

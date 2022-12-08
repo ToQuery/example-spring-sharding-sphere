@@ -93,7 +93,7 @@ spring:
             type: ROUND_ROBIN # 负载均衡算法 https://shardingsphere.apache.org/document/5.2.1/cn/user-manual/common-config/builtin-algorithm/load-balance/
 
       sharding: # 分库分表
-        binding-tables:
+        binding-tables: # 防止笛卡尔积
           - tb_order
           - tb_order_item
           - tb_statistics_order
@@ -119,7 +119,7 @@ spring:
           tb-order-item-inline:
             type: AppOrderIdStandardShardingAlgorithm
           tb-statistics-order-inline:
-            type: AppStoreIdOrderIdStandardShardingAlgorithm
+            type: AppOrderIdCreateDateTimeStandardShardingAlgorithm
         tables:
           tb_user:
             actual-data-nodes: ds-$->{0..1}.tb_user
@@ -155,12 +155,12 @@ spring:
                 sharding-column: order_id
                 sharding-algorithm-name: tb-order-item-inline
           tb_statistics_order:
-            actual-data-nodes: ds-$->{0..1}.tb_statistics_order_$->{0..1}
+            actual-data-nodes: ds-$->{0..1}.tb_statistics_order_${[0,1,2]}_${[2022]}_${(1..3).collect{t ->t.toString().padLeft(2,'0')}}
             key-generate-strategy:
               column: id
               key-generator-name: snowflake
             table-strategy:
               complex:
-                sharding-columns: store_id,order_id
+                sharding-columns: order_id,create_date_time
                 sharding-algorithm-name: tb-statistics-order-inline
 

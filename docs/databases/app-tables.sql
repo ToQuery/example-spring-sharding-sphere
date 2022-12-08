@@ -19,7 +19,7 @@ CREATE TABLE tb_order
     `id`           bigint NOT NULL,
     `user_id`      bigint NULL,
     `address_id`   bigint NULL,
-    `order_status` varchar(255) NULL,
+    `order_status` int NULL,
     `create_date_time` DATETIME NULL,
     PRIMARY KEY (`id`)
 );

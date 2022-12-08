@@ -1,5 +1,6 @@
 package io.github.toquery.example.spring.sharding.sphere.modules.order.service;
 
+import cn.hutool.core.util.RandomUtil;
 import io.github.toquery.example.spring.sharding.sphere.bff.open.order.model.response.OrderUserResponse;
 import io.github.toquery.example.spring.sharding.sphere.modules.order.Order;
 import io.github.toquery.example.spring.sharding.sphere.modules.order.repository.OrderRepository;
@@ -30,11 +31,11 @@ public class OrderService {
         Order order1 = new Order();
         order1.setUserId(userId);
         order1.setAddressId(addressId);
-        order1.setOrderStatus("PAY");
+        order1.setOrderStatus(RandomUtil.randomInt(1, 5));
         Order order2 = new Order();
         order2.setUserId(userId);
         order2.setAddressId(addressId);
-        order2.setOrderStatus("PAY");
+        order2.setOrderStatus(RandomUtil.randomInt(1, 5));
         return orderRepository.saveAll(List.of(order1, order2));
     }
 
@@ -47,16 +48,21 @@ public class OrderService {
     }
 
 
-    public List<Order> list(Long userId, Long orderId) {
-        Order orderQuery = new Order();
+    public List<Order> list(Long userId, Long orderId, List<Long> orderIds) {
+        if (orderIds == null || orderIds.isEmpty()) {
+            Order orderQuery = new Order();
 
-        if (userId != null) {
-            orderQuery.setUserId(userId);
+            if (userId != null) {
+                orderQuery.setUserId(userId);
+            }
+            if (orderId != null) {
+                orderQuery.setId(orderId);
+            }
+            return orderRepository.findAll(Example.of(orderQuery));
+        } else {
+            return orderRepository.findByUserIdAndIdIn(userId, orderIds);
         }
-        if (orderId != null) {
-            orderQuery.setId(orderId);
-        }
-        return orderRepository.findAll(Example.of(orderQuery));
+
     }
 
     public List<OrderUserResponse> listWithUser() {
@@ -69,7 +75,7 @@ public class OrderService {
     }
 
     public Page<Order> page(Integer page, Integer size) {
-        return orderRepository.findAll(PageRequest.of(page, size, Sort.by("createDateTime").ascending()));
+        return orderRepository.findAll(PageRequest.of(page, size, Sort.by("orderStatus", "createDateTime").descending()));
     }
 
     public List<Order> findByUserId(Long userId) {
@@ -93,4 +99,11 @@ public class OrderService {
     }
 
 
+    public List<Order> saveAll(List<Order> orders) {
+        return orderRepository.saveAllAndFlush(orders);
+    }
+
+    public List<Order> listByUserId(Long userId) {
+        return orderRepository.findByUserId(userId);
+    }
 }

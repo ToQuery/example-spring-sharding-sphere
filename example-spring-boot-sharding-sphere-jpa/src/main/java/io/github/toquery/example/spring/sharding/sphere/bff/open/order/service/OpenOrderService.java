@@ -15,10 +15,12 @@ import io.github.toquery.example.spring.sharding.sphere.modules.order.service.Or
 import io.github.toquery.example.spring.sharding.sphere.modules.order.service.OrderService;
 import io.github.toquery.example.spring.sharding.sphere.modules.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -44,8 +46,8 @@ public class OpenOrderService {
         return orderService.list();
     }
 
-    public List<Order> list(Long userId, Long orderId) {
-        return orderService.list(userId, orderId);
+    public List<Order> list(Long userId, Long orderId, List<Long> orderIds) {
+        return orderService.list(userId, orderId, orderIds);
     }
 
     public List<OrderUserResponse> listWithUser() {
@@ -71,6 +73,7 @@ public class OpenOrderService {
         return orderService.page(page,size);
     }
 
+    @Transactional
     public UserInfoResponse save() {
         User user = userService.save();
         Long userId = user.getId();
@@ -79,7 +82,20 @@ public class OpenOrderService {
         List<Order> orders = orderService.save(userId, address.get(0).getId());
         List<OrderItem> orderItems = orderItemService.save(userId, orders);
         List<StatisticsOrder> statisticsOrders = statisticsOrderService.save(userId, orders);
-        return new UserInfoResponse(user, account, address, orders, orderItems, statisticsOrders);
+        throw new RuntimeException("");
+        // return new UserInfoResponse(user, account, address, orders, orderItems, statisticsOrders);
+    }
+
+    public List<Order> update(Long oldUserId, Long newUserId) {
+        List<Order> orders = orderService.listByUserId(oldUserId);
+        orders.forEach(order -> {
+            // 实际因注解 @Column(name = "user_id", updatable = false) 设置为false，更新时不会更新 ，否则提示 Can not update sharding value for table
+            if (newUserId != null){
+                order.setUserId(newUserId);
+            }
+            order.setCreateDateTime(LocalDateTime.now());
+        });
+        return orderService.saveAll(orders);
     }
 
     public List<StatisticsOrder> statisticsStoreId(Long storeId) {
@@ -95,7 +111,9 @@ public class OpenOrderService {
         return statisticsOrderService.findByStoreIdAndUserIdAndOrderId(storeId,userId, orderId);
     }
 
-    public List<StatisticsOrder> statistics(Long storeId, Long userId, Long orderId) {
-        return statisticsOrderService.findByStoreIdAndUserIdAndOrderId(storeId,userId, orderId);
+    public List<StatisticsOrder> statistics(Long storeId, Long userId, Long orderId, LocalDate startDate, LocalDate endDate) {
+        return statisticsOrderService.findByStoreIdAndUserIdAndOrderId(storeId, userId, orderId, startDate, endDate);
     }
+
+
 }

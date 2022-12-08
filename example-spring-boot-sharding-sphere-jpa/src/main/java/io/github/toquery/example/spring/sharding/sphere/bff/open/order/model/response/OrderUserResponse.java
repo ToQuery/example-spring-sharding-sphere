@@ -36,7 +36,7 @@ public class OrderUserResponse {
 
     private Long addressId;
 
-    private String orderStatus;
+    private Integer orderStatus;
 
     private LocalDateTime createDateTime;
 

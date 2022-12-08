@@ -1,5 +1,6 @@
 package io.github.toquery.example.spring.sharding.sphere.modules.order;
 
+import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,15 +32,17 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
+//    @Basic(optional = false)
+    @Column(name = "user_id", updatable = false)
     private Long userId;
 
     @Column(name = "address_id")
     private Long addressId;
 
     @Column(name = "order_status")
-    private String orderStatus;
+    private Integer orderStatus;
 
     @Column(name = "create_date_time")
     private LocalDateTime createDateTime;
+
 }

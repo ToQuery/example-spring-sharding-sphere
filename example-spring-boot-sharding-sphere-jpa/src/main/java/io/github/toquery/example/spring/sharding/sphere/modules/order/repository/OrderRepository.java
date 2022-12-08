@@ -49,4 +49,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             and o.id = :orderId
             """)
     OrderUserResponse findOrderUserResponseById(Long orderId);
+
+    List<Order> findByUserIdAndIdIn(Long userId, List<Long> orderIds);
 }
