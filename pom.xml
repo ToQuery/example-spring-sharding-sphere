@@ -12,7 +12,7 @@
 	</parent>
 
 	<groupId>io.github.toquery</groupId>
-	<artifactId>example-spring-boot-sharding-sphere</artifactId>
+	<artifactId>example-spring-sharding-sphere</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>example-spring-sharding-sphere</name>
 	<description>Demo project for Spring Boot</description>
@@ -27,8 +27,8 @@
 	</properties>
 
 	<modules>
-		<module>example-spring-boot-sharding-sphere-jpa</module>
-		<module>example-spring-boot-sharding-sphere-core</module>
+		<module>example-spring-sharding-sphere-jpa</module>
+		<module>example-spring-sharding-sphere-core</module>
 	</modules>
 
 	<dependencyManagement>
@@ -51,7 +51,7 @@
 			</dependency>
 			<dependency>
 				<groupId>io.github.toquery</groupId>
-				<artifactId>example-spring-boot-sharding-sphere-core</artifactId>
+				<artifactId>example-spring-sharding-sphere-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
