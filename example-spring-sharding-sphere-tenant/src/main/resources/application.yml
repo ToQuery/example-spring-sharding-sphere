@@ -99,25 +99,20 @@ spring:
           - tb_statistics_order
         broadcast-tables: # 广播表
           - tb_user
+        default-database-strategy:
+          standard:
+            sharding-algorithm-name: database-tenant
         key-generators:
           snowflake:
             type: SNOWFLAKE
-        default-key-generate-strategy:
-          column: id
-          key-generator-name: snowflake
-        default-database-strategy:
-#          standard:
-#            sharding-algorithm-name: database-inline
-#            sharding-column: user_id
-          hint:
-            sharding-algorithm-name: database-tenant
+
         sharding-algorithms:
           database-inline:
             props:
               algorithm-expression: ds-$->{user_id % 2}
             type: INLINE
           database-tenant:
-            type: AppDatabaseTenantHintShardingAlgorithm
+            type: AppDatabaseTenantShardingAlgorithm
           tb-order-inline:
             props:
               algorithm-expression: tb_order_$->{id % 2}
@@ -129,25 +124,44 @@ spring:
         tables:
           tb_user:
             actual-data-nodes: ds-$->{0..1}.tb_user
+            key-generate-strategy:
+              column: id
+              key-generator-name: snowflake
           tb_account:
             actual-data-nodes: ds-$->{0..1}.tb_account
+            key-generate-strategy:
+              column: id
+              key-generator-name: snowflake
           tb_address:
             actual-data-nodes: ds-$->{0..1}.tb_address
+            key-generate-strategy:
+              column: id
+              key-generator-name: snowflake
           tb_order:
             actual-data-nodes: ds-$->{0..1}.tb_order_$->{0..1}
+            key-generate-strategy:
+              column: id
+              key-generator-name: snowflake
             table-strategy:
               standard:
                 sharding-algorithm-name: tb-order-inline
                 sharding-column: id
           tb_order_item:
             actual-data-nodes: ds-$->{0..1}.tb_order_item_$->{0..1}
+            key-generate-strategy:
+              column: id
+              key-generator-name: snowflake
             table-strategy:
               standard:
                 sharding-column: order_id
                 sharding-algorithm-name: tb-order-item-inline
           tb_statistics_order:
             actual-data-nodes: ds-$->{0..1}.tb_statistics_order_${[0,1,2]}_${[2022]}_${(1..3).collect{t ->t.toString().padLeft(2,'0')}}
+            key-generate-strategy:
+              column: id
+              key-generator-name: snowflake
             table-strategy:
               complex:
                 sharding-columns: order_id,create_date_time
                 sharding-algorithm-name: tb-statistics-order-inline
+

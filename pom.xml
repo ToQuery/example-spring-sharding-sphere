@@ -29,6 +29,7 @@
 	<modules>
 		<module>example-spring-sharding-sphere-jpa</module>
 		<module>example-spring-sharding-sphere-core</module>
+		<module>example-spring-sharding-sphere-tenant</module>
 	</modules>
 
 	<dependencyManagement>
@@ -52,6 +53,11 @@
 			<dependency>
 				<groupId>io.github.toquery</groupId>
 				<artifactId>example-spring-sharding-sphere-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.toquery</groupId>
+				<artifactId>example-spring-sharding-sphere-jpa</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>

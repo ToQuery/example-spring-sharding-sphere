@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ExampleSpringShardingSphereJPAApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="example-spring-sharding-sphere-jpa" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="io.github.toquery.example.spring.sharding.sphere.jpa.ExampleSpringShardingSphereJPAApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
