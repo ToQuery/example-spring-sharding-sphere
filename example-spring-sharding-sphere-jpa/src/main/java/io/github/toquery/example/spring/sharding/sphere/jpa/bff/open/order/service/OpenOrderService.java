@@ -15,10 +15,12 @@ import io.github.toquery.example.spring.sharding.sphere.jpa.modules.order.servic
 import io.github.toquery.example.spring.sharding.sphere.jpa.modules.order.service.OrderService;
 import io.github.toquery.example.spring.sharding.sphere.jpa.modules.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.infra.hint.HintManager;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,6 +29,7 @@ import java.util.List;
 /**
  *
  */
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class OpenOrderService {
@@ -48,6 +51,9 @@ public class OpenOrderService {
     }
 
     public List<Order> list(Long userId, Long orderId, List<Long> orderIds) {
+        log.info("getCurrentTransactionName {} getCurrentTransactionIsolationLevel {}",
+                TransactionSynchronizationManager.getCurrentTransactionName(),
+                TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
         return orderService.list(userId, orderId, orderIds);
     }
 
